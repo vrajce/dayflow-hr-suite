@@ -6,7 +6,7 @@ interface AuthContextType {
   viewAsRole: UserRole;
   isAuthenticated: boolean;
   login: (email: string, password: string) => boolean;
-  signup: (name: string, employeeId: string, email: string, password: string, role: UserRole) => boolean;
+  signup: (companyName: string, name: string, email: string, phone: string, password: string, role: UserRole) => boolean;
   logout: () => void;
   setViewAsRole: (role: UserRole) => void;
 }
@@ -28,7 +28,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     return false;
   };
 
-  const signup = (name: string, employeeId: string, email: string, password: string, role: UserRole): boolean => {
+  const signup = (companyName: string, name: string, email: string, phone: string, password: string, role: UserRole): boolean => {
     // Mock signup - in real app this would create a new user
     const newUser: User = {
       id: `u${Date.now()}`,
@@ -36,11 +36,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       email,
       role,
       avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&h=150&fit=crop&crop=face',
-      phone: '',
+      phone,
       address: '',
-      employeeId,
+      employeeId: `DF${Date.now().toString().slice(-4)}`,
       jobTitle: role === 'admin' ? 'HR Manager' : 'Employee',
-      department: role === 'admin' ? 'Human Resources' : 'General',
+      department: companyName || 'General',
     };
     setCurrentUser(newUser);
     setViewAsRole(role);
